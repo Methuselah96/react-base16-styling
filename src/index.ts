@@ -28,7 +28,7 @@ const invertColor = flow(
   rgb2hex
 );
 
-type OptStyling = { className?: string; style?: Object };
+type OptStyling = { className?: string; style?: Record<string, any> };
 
 const merger = function merger(styling: OptStyling) {
   return (prevStyling: OptStyling) => ({
@@ -103,7 +103,7 @@ const mergeStyling = function mergeStyling(customStyling, defaultStyling) {
 const mergeStylings = function mergeStylings(customStylings, defaultStylings) {
   const keys = Object.keys(defaultStylings);
   for (const key in customStylings) {
-    if (keys.indexOf(key) === -1) keys.push(key);
+    if (!keys.includes(key)) keys.push(key);
   }
 
   return keys.reduce(
@@ -158,7 +158,7 @@ const getStylingByKeys = (mergedStyling, keys, ...args) => {
 export const invertTheme = (theme: Base16Theme): Base16Theme =>
   Object.keys(theme).reduce(
     (t, key) => (
-      (t[key] = /^base/.test(key)
+      (t[key] = key.startsWith('base')
         ? invertColor(theme[key])
         : key === 'scheme'
         ? theme[key] + ':inverted'
@@ -192,9 +192,7 @@ export const createStyling = curry(
 
     const customStyling = Object.keys(themeOrStyling).reduce(
       (s, key) =>
-        BASE16_KEYS.indexOf(key) === -1
-          ? ((s[key] = themeOrStyling[key]), s)
-          : s,
+        !BASE16_KEYS.includes(key) ? ((s[key] = themeOrStyling[key]), s) : s,
       {}
     );
 

@@ -1,7 +1,7 @@
 type Color = [number, number, number];
 
 export function yuv2rgb(yuv: Color): Color {
-  var y = yuv[0],
+  let y = yuv[0],
     u = yuv[1],
     v = yuv[2],
     r,
@@ -20,13 +20,13 @@ export function yuv2rgb(yuv: Color): Color {
 }
 
 export function rgb2yuv(rgb: Color): Color {
-  var r = rgb[0] / 255,
+  const r = rgb[0] / 255,
     g = rgb[1] / 255,
     b = rgb[2] / 255;
 
-  var y = r * 0.299 + g * 0.587 + b * 0.114;
-  var u = r * -0.14713 + g * -0.28886 + b * 0.436;
-  var v = r * 0.615 + g * -0.51499 + b * -0.10001;
+  const y = r * 0.299 + g * 0.587 + b * 0.114;
+  const u = r * -0.14713 + g * -0.28886 + b * 0.436;
+  const v = r * 0.615 + g * -0.51499 + b * -0.10001;
 
   return [y, u, v];
 }
