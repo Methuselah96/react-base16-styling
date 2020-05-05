@@ -10,6 +10,7 @@ import type {
   Base16Theme,
   GetDefaultStyling,
   StylingOptions,
+  StylingConfig,
 } from './types';
 
 const DEFAULT_BASE16 = base16.default;
@@ -18,7 +19,7 @@ const BASE16_KEYS = Object.keys(DEFAULT_BASE16);
 
 // we need a correcting factor, so that a dark, but not black background color
 // converts to bright enough inversed color
-const flip = (x) => (x < 0.25 ? 1 : x < 0.5 ? 0.9 - x : 1.1 - x);
+const flip = (x: number) => (x < 0.25 ? 1 : x < 0.5 ? 0.9 - x : 1.1 - x);
 
 const invertColor = flow(
   parse,
@@ -201,15 +202,18 @@ export const createStyling = curry(
     const mergedStyling = mergeStylings(customStyling, defaultStyling);
 
     return curry(getStylingByKeys, 2)(mergedStyling, ...args);
-  },
-  3
+  }
 );
+
+function isStylingConfig(theme: Theme): theme is StylingConfig {
+  return (theme as StylingConfig).extend !== undefined;
+}
 
 export const getBase16Theme = (
   theme: Theme,
-  base16Themes: ?Base16Theme[]
-): ?Base16Theme => {
-  if (theme && theme.extend) {
+  base16Themes?: Base16Theme[] | null
+): Base16Theme | undefined | null => {
+  if (theme && isStylingConfig(theme) && theme.extend) {
     theme = theme.extend;
   }
 

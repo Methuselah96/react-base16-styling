@@ -1,16 +1,16 @@
 type Color = [number, number, number];
 
 export function yuv2rgb(yuv: Color): Color {
-  let y = yuv[0],
-    u = yuv[1],
-    v = yuv[2],
-    r,
-    g,
-    b;
+  const y = yuv[0];
+  const u = yuv[1];
+  const v = yuv[2];
+  let r;
+  let g;
+  let b;
 
-  r = y * 1 + u * 0 + v * 1.13983;
-  g = y * 1 + u * -0.39465 + v * -0.5806;
-  b = y * 1 + u * 2.02311 + v * 0;
+  r = y + v * 1.13983;
+  g = y + u * -0.39465 + v * -0.5806;
+  b = y + u * 2.02311;
 
   r = Math.min(Math.max(0, r), 1);
   g = Math.min(Math.max(0, g), 1);

@@ -1,4 +1,4 @@
-export type Style = {
+export interface Style {
   alignContent?: string;
   alignItems?: string;
   alignSelf?: string;
@@ -277,14 +277,14 @@ export type Style = {
   wordWrap?: string;
   writingMode?: string;
   zIndex?: string;
-};
+}
 
-export type Styling = {
+export interface Styling {
   style?: Style;
   className?: string;
-};
+}
 
-export type Base16Theme = {
+export interface Base16Theme {
   scheme?: string;
   author?: string;
   base00: string;
@@ -303,22 +303,23 @@ export type Base16Theme = {
   base0D: string;
   base0E: string;
   base0F: string;
-};
+}
 
 export type StylingValue =
   | string
   | Style
   | ((styling: Styling, ...rest: Array<any>) => Styling);
 
-export type StylingConfig = {
-  extend?: string | Base16Theme;
+export type Extend = string | Base16Theme;
+
+export type StylingConfig = { extend?: Extend } & {
   [name: string]: StylingValue;
 };
 
 export type Theme = string | Base16Theme | StylingConfig;
 
 export type StylingFunction = (
-  keys: string | Array<?string>,
+  keys: string | Array<string | undefined | null>,
   ...rest: Array<any>
 ) => Styling;
 
@@ -329,7 +330,7 @@ export type PartialStylingFunction = (
   invertTheme: boolean
 ) => StylingFunction;
 
-export type StylingOptions = {
+export interface StylingOptions {
   defaultBase16?: Theme;
   base16Themes: Theme[];
-};
+}
