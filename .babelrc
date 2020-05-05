@@ -1,8 +1,9 @@
 {
-  "presets": ["env"],
+  "presets": [
+    "@babel/env",
+    "@babel/typescript"
+  ],
   "plugins": [
-    "transform-object-rest-spread",
-    "transform-runtime",
-    "transform-flow-strip-types"
+    "@babel/proposal-class-properties"
   ]
 }
